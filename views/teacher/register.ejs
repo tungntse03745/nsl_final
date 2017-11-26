@@ -1,0 +1,71 @@
+<div class="container" ng-controller="registerTeacherCtr">
+	<form name="registerform" class="validate-input" novalidate ng-submit="submit(registerform.$valid)">
+		<div class="row">
+	        <div class="col-md-6">
+		            <h1>Đăng ký làm giáo viên</h1>
+
+		            <div class="form-group">
+		            <label><span class="req">* </span> Họ và tên </label>
+	                    <validate-input class="mg-bottom-10" v-model="user.fullname" v-name="fullname" v-form="registerform" v-type="text" v-placeholder="Họ và tên" v-tooltip-placement="top" v-required="true" v-min-length="3" v-max-length="30"></validate-input>
+		            </div>
+
+		            <div class="form-group"> 	 
+		                <label><span class="req">* </span> Tuổi </label>
+						<validate-input class="mg-bottom-10" v-model="user.age" v-name="age" v-form="registerform" v-type="number" v-placeholder="Tuổi" v-tooltip-placement="top" v-required="true" v-min="18" v-max="100"></validate-input>
+		            </div>
+
+		            <div class="form-group">
+		                <label><span class="req">* </span> Số điện thoại </label>
+						<validate-input class="mg-bottom-10" v-model="user.phone" v-name="phone" v-form="registerform" v-type="text" v-placeholder="Số điện thoại" v-tooltip-placement="top" v-required="true" v-custom-validations="phoneValidation"></validate-input>
+		            </div>
+
+		            <div class="form-group">
+		                <label><span class="req">* </span> Địa chỉ </label>
+						<validate-input class="mg-bottom-10" v-model="user.address" v-name="address" v-form="registerform" v-type="text" v-placeholder="Địa chỉ" v-tooltip-placement="top" v-required="true"></validate-input>
+		            </div>
+
+		            <div class="form-group">
+		                <label><span class="req">* </span> Số chứng minh nhân dân </label>
+						<validate-input class="mg-bottom-10" v-model="user.indentityCard" v-name="indentityCard" v-form="registerform" v-type="text" v-placeholder="Số chứng minh nhân dân" v-tooltip-placement="top" v-required="true"></validate-input>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label><span class="req">* </span> Nghề nghiệp </label>
+						<validate-input class="mg-bottom-10" v-model="user.job" v-name="job" v-form="registerform" v-type="text" v-placeholder="Nghề nghiệp" v-tooltip-placement="top" v-required="true" v-min-length="3" v-max-length="200"></validate-input>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label><span class="req">* </span> Email </label>
+						<validate-input class="mg-bottom-10" v-model="user.email" v-name="email" v-form="registerform" v-type="email" v-placeholder="Email" v-tooltip-placement="top" v-required="true"></validate-input>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label><span class="req">* </span> Mật khẩu </label>
+						<validate-input class="mg-bottom-10" v-model="user.password" v-name="password" v-form="registerform" v-type="password" v-placeholder="Mật khẩu" v-tooltip-placement="top" v-required="true" ng-minlength="6" ng-maxlength="12"></validate-input>
+		            </div>
+		            
+		            <div class="form-group">
+		                <label><span class="req">* </span> Xác nhận Mật khẩu </label>
+						<validate-input class="mg-bottom-10" v-model="user.password_confirm" v-name="password_confirm" v-form="registerform" v-type="password" v-placeholder="Xác nhận Mật khẩu" v-tooltip-placement="top" v-required="true" ng-minlength="6" ng-maxlength="12" v-custom-validations="confirmPasswordValidation"></validate-input>
+		            </div>
+		            <div class="form-group">
+		                <input class="btn btn-success" type="submit" name="submit_reg" value="Đăng Ký">
+		            </div>
+
+	        </div><!-- ends col-6 -->
+	   
+	        <div class="col-md-6">
+	            <h2 class="page-header">Đơn xin xác nhận làm giáo viên</h2>
+	            <p>Bạn hãy đính kèm các thông tin bằng cấp, chứng chỉ liên quan đến lĩnh vực giảng dạy, hay chuyên môn của bạn. Hãy mô tả sơ lược lĩnh vực bạn muốn giảng dạy. Nếu phù hợp chúng tôi sẽ cho phép bạn có quyền bán khóa học của bạn trên website của chúng tôi.</p>
+	            <div>
+	            	<div trumbowyg-ng
+						ng-model="user.description"
+						ng-disabled="true"
+						editor-config="{btns: ['bold','italic','insertImage','|','link']}">
+					</div>
+	            </div>
+	        </div>
+
+		</div>
+	</form><!-- ends register form -->
+</div>

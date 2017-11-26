@@ -1,0 +1,151 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container-fluid" ng-controller="homepageCtr">
+	 <div class="row">
+			<div class="col-md-3 col-sm-3">
+				 <div>
+						<a href="/?<%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%><%}%>" class="list-group-item">Theo thể loại
+						</a>
+						<ul class="list-group">
+							<!-- EJS -->
+							<% for(var i=0; i < categories.length; i++) { %>
+							<a class="text-decoration-none" href="/?category=<%= categories[i].id%><%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%> <%}%>">
+								<li class="list-group-item <%if(queryStr.category==categories[i].id){%>active<%}%>"><%=categories[i].name %>
+									<span class="label label-info pull-right"><%=categories[i].course.length%></span>
+								</li>
+							 </a>
+							 <% } %>
+							<!-- EJS END -->
+						</ul>
+				 </div>
+
+				 <div>
+						<a href="/?<%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.category){%>&category=<%=queryStr.category%> <%}%>" class="list-group-item">Theo trình độ
+						</a>
+						<ul class="list-group">
+							<!-- EJS -->
+							<% for(var i=0; i < levels.length; i++) { %>
+							<a class="text-decoration-none" href="/?level=<%= levels[i].id%><%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.category){%>&category=<%=queryStr.category%> <%}%>">
+								<li class="list-group-item <%if(queryStr.level==levels[i].id){%>active<%}%>"><%=levels[i].name %>
+									<span class="label label-danger pull-right"><%=levels[i].course.length%></span>
+								</li>
+							 </a>
+							 <% } %>
+							<!-- EJS END -->
+						</ul>
+				 </div>
+
+				 <div>
+						<a href="/?<%if(queryStr.category){%>&category=<%=queryStr.category%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%><%}%>" class="list-group-item">Theo giảng viên
+						</a>
+						<ul class="list-group">
+							<!-- EJS -->
+							<% for(var i=0; i < topTeachers.length; i++) { %>
+								<a class="text-decoration-none" href="/?teacher=<%= topTeachers[i].teacher%><%if(queryStr.category){%>&category=<%=queryStr.category%> <%}%><%if(queryStr.level){%>&level=<%=queryStr.level%> <%}%>">
+									<li class="list-group-item <%if(queryStr.teacher==topTeachers[i].teacher){%>active<%}%>"><%= topTeachers[i].fullname%>
+										<span class="label label-success pull-right"><%= topTeachers[i].total%></span>
+									</li>
+								</a>
+							 <% } %>
+							<!-- EJS END -->
+						</ul>
+				 </div>
+			</div>
+			<div class="col-md-9 col-sm-9">
+				<div class="mg-bottom-10">
+					<ul class="nav nav-pills">
+						<li role="presentation" class="active">
+							<a href="/">Mới nhất</a>
+						</li>
+					</ul>
+				</div>
+				<%if(queryStr.searchCourseName){%>
+				<div class="mg-bottom-10">
+					<h4>Kết quả tìm kiếm cho " <%= queryStr.searchCourseName%> "</h4>
+				</div>
+				<%}%>
+			 <div class="row">
+      <% for(var i=0; i < listCourses.length; i++) { %>
+          <div class="col-md-4 col-sm-6 col-xs-12">
+             <a href="/course/view/<%=listCourses[i].id%>" class="thumbnail relative text-decoration-none">
+              <img src="<%= listCourses[i].picture%>" class="img-responsive" alt="" />
+              <h5 class="course-title"><%= listCourses[i].name%></h5>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-sm-12 col-xs-12">
+                    <div class="course-mota">
+                      <span><%=listCourses[i].generalDescription%></span>
+                    </div>
+                  </div>
+              </div>
+         	 </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <div class="course-author">
+                      <span><%=listCourses[i].teacher.fullname%></span>
+                    </div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div class="course-sale">
+                      <!-- EJS -->
+                     
+                      <!-- EJS END -->
+                      <span class="new-price">{{'<%= listCourses[i].price%>'| vnd}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- EJS -->
+             
+             </a>
+          </div>
+          <% } %>
+       
+      </div>
+				<div class="row">
+					<div class="col-sm-12 col-md-12">
+						<ul class="pagination pagination-lg pull-right">
+							<%if(pagging.current!=0){%>
+							<li>
+								<a href="/?<%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.category){%>&category=<%=queryStr.category%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%><%}%>">
+									<i class="fa fa-angle-double-left"></i>
+								</a>
+							</li>
+							<%}%>
+							<% for(var i = pagging.current-3; i < pagging.current ; i++) { %>
+								<%if(i>=0){%>
+								<li>
+									<a href="/?page=<%= i+1%><%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.category){%>&category=<%=queryStr.category%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%><%}%>">
+										<%= i + 1 %>
+									</a>
+									</li>
+								<%}%>
+							<%}%>
+							<li class="active"><a href="#"><%=pagging.current + 1%></a></li>
+							<% for(var i = pagging.current+1; i < pagging.current + 4; i++) { %>
+								<%if(i<Math.ceil(pagging.count/pagging.limit)){%>
+								<li>
+									<a href="/?page=<%= i+1%><%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.category){%>&category=<%=queryStr.category%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%><%}%>">
+										<%= i + 1 %>
+									</a>
+								</li>
+								<%}%>
+							<%}%>
+							<%if(pagging.current + 1<Math.ceil(pagging.count/pagging.limit)){%>
+							<li>
+								<a href="/?page=<%=Math.ceil(pagging.count/pagging.limit)%><%if(queryStr.teacher){%>&teacher=<%=queryStr.teacher%><%}%><%if(queryStr.category){%>&category=<%=queryStr.category%><%}%><%if(queryStr.level){%>&level=<%=queryStr.level%><%}%>">
+									<i class="fa fa-angle-double-right"></i>
+								</a>
+							</li>
+							<%}%>
+						 </ul>
+					</div>
+				</div>
+				<!-- /.row -->
+			</div>
+	 </div>
+	 <!-- /.row -->
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>

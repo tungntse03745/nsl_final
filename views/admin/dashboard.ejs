@@ -1,0 +1,18 @@
+<%- layout ('../common/admin-template.ejs') %>
+<!-- Page Content -->
+<div id="page-content-wrapper">
+	<div class="container-fluid">
+		<h1>Bảng Điều Khiển NSL</h1>
+		<div class="col-sm-6">
+			<h3>Tổng số tiền học sinh đã thanh toán:<span class="new-price">{{'<%=moneyFromStudent%>'|vnd}}</span></h3>
+		</div>
+		<div class="col-sm-6">
+			<h3>Tổng số tiền đã đã trả cho giáo viên:<span class="new-price">{{'<%=moneyTeacherPaid%>'|vnd}}</span></h3>
+			<h3>Tổng số tiền chưa trả cho giáo viên:<span class="new-price">{{'<%=moneyTeacherNotPay%>'|vnd}}</span></h3>
+			<hr>
+
+			<h3>Tổng số tiền giáo viên kiếm được:<span class="new-price">{{'<%=moneyTeacherPaid+moneyTeacherNotPay%>'|vnd}}</span></h3>
+		</div>
+		
+	</div>
+</div>

@@ -1,0 +1,305 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container" ng-controller="editCourseCtr">
+	<h2>Sửa khóa học</h2>
+	<div ng-if="course.status=='reject'">
+		<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			<strong>Khóa học của bạn đã bị admin từ chối, hãy hoàn thiện và nộp lại:</strong>
+			<p><strong>Tin nhắn từ admin: </strong>{{course.adminMessage}}</p>
+		</div>
+	</div>
+	<form name="form" class="validate-input" novalidate>
+		<div class="row">
+			<div class="col-sm-6 col-md-5 mg-top-20">
+				<div class="input-group validate-input">
+					<span class="input-group-addon">Tên khóa học</span>
+					<input type="text" class="form-control" placeholder="Tên khóa học" name="name" ng-model="course.name" tooltip-enable="{{!form.name.$valid}}" tooltip-placement="top" uib-tooltip-template="'nameValidate.html'" ng-class="!form.name.$valid&&form.$submitted?'err':''" ng-required="true" ng-minlength="4" ng-maxlength="200">
+					<!-- VALIDATE TEN KHOA HOC -->
+					<script type="text/ng-template" id="nameValidate.html">
+						<div ng-show="form.name.$error.required">Bạn phải nhập tên khóa học</div>
+						<div ng-show="form.name.$error.minlength">Tên khóa học phải lớn hơn 4 ký tự</div>
+						<div ng-show="form.name.$error.maxlength">Tên khóa học phải nhỏ hơn 200 ký tự</div>
+					</script>
+					<!-- END -->
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4 mg-top-20">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Thể loại</span>
+					<select name="caterory" class="form-control" ng-options="category.name for category in default.categories track by category.id" ng-model="course.category" tooltip-enable="{{!form.caterory.$valid}}" tooltip-placement="top" uib-tooltip-template="'cateroryValidate.html'" ng-class="!form.caterory.$valid&&form.$submitted?'err':''" ng-required="true"></select>
+					<!-- VALIDATE CATEGORY -->
+					<script type="text/ng-template" id="cateroryValidate.html">
+						<div ng-show="form.caterory.$error.required">Bạn phải nhập category</div>
+					</script>
+					<!-- END -->
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-3 mg-top-20">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon1">Cấp độ</span>
+					<select name="level" class="form-control" ng-options="level.name for level in default.levels track by level.id" ng-model="course.level" tooltip-enable="{{!form.level.$valid}}" tooltip-placement="top" uib-tooltip-template="'levelValidate.html'" ng-class="!form.level.$valid&&form.$submitted?'err':''" ng-required="true"></select>
+					<!-- VALIDATE level -->
+					<script type="text/ng-template" id="levelValidate.html">
+						<div ng-show="form.level.$error.required">Bạn phải nhập level</div>
+					</script>
+					<!-- END -->
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4 mg-top-20">
+				<div class="input-group validate-input">
+					<span class="input-group-addon">Giá </span>
+					<input type="number" class="form-control" placeholder="Giá của khóa học" name="price" ng-model="course.price" tooltip-enable="{{!form.price.$valid}}" tooltip-placement="top" uib-tooltip-template="'priceValidate.html'" ng-class="!form.price.$valid&&form.$submitted?'err':''" ng-required="true" min="0" max="100000000">
+					<span class="input-group-addon">VND</span>
+					<!-- VALIDATE GIA KHOA HOC -->
+					<script type="text/ng-template" id="priceValidate.html">
+						<div ng-show="form.price.$error.max">Bạn phải nhập gía nhỏ hơn 100.000.000đ</div>
+						<div ng-show="form.price.$error.min">Bạn phải nhập gía lớn hơn hoặc bằng 0đ</div>
+						<div ng-show="form.price.$error.required">Bạn phải nhập gía</div>
+					</script>
+					<!-- END -->
+				</div>
+				<div class="mg-top-10">
+					<span class="course-price">{{course.price | vnd}}</span>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-4 mg-top-20">
+				<div class="input-group validate-input">
+					<span class="input-group-addon">Giá cũ</span>
+					<input type="number" class="form-control" placeholder="Có thể để trống" name="oldPrice" ng-model="course.oldPrice" tooltip-enable="{{!form.oldPrice.$valid}}" tooltip-placement="top" uib-tooltip-template="'oldPriceValidate.html'" ng-class="!form.oldPrice.$valid&&form.$submitted?'err':''" ng-required="true" min="0" max="100000000">
+					<span class="input-group-addon">VND</span>
+					<!-- VALIDATE GIA KHOA HOC -->
+					<script type="text/ng-template" id="oldPriceValidate.html">
+						<div ng-show="form.oldPrice.$error.max">Bạn phải nhập gía nhỏ hơn 100.000.000đ</div>
+						<div ng-show="form.oldPrice.$error.min">Bạn phải nhập gía lớn hơn hoặc bằng 0đ</div>
+						<div ng-show="form.oldPrice.$error.required">Bạn phải nhập gía</div>
+					</script>
+					<!-- END -->
+				</div>
+				<div class="mg-top-10">
+					<span class="course-price">{{course.oldPrice | vnd}}</span>
+				</div>
+			</div>
+
+			<div class="col-sm-12 mg-top-20">
+				<div class="input-group">
+					<button class="btn btn-primary" ng-click="openInputFile()">Ảnh bìa khóa học</button>
+					<input id="upload-img" type="file" accept=".png, .jpg, .jpeg" style="display: none" />
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-md-offset-4 ">
+				<img id="picture-preview" class="img-responsive" src="{{course.pictureData}}">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<h4>Mô tả tổng quát khóa học</h4>
+				<textarea class="form-control" rows="3" ng-model="course.generalDescription" name="generalDescription" tooltip-enable="{{!form.generalDescription.$valid}}" tooltip-placement="top" uib-tooltip-template="'generalDescriptionValidate.html'" ng-class="!form.generalDescription.$valid&&form.$submitted?'err':''" ng-required="true" ng-minlength="40" ng-maxlength="1000"></textarea>
+				<!-- VALIDATE TEN KHOA HOC -->
+				<script type="text/ng-template" id="generalDescriptionValidate.html">
+					<div ng-show="form.generalDescription.$error.required">Bạn phải nhập Mô tả tổng quát khóa học</div>
+					<div ng-show="form.generalDescription.$error.minlength">Mô tả tổng quát khóa học phải lớn hơn 40 ký tự</div>
+					<div ng-show="form.generalDescription.$error.maxlength">Mô tả tổng quát khóa học phải nhỏ hơn 1000 ký tự</div>
+				</script>
+				<!-- END -->
+			</div>
+			<div class="col-xs-12">
+				<h4>Yêu cầu của khóa học</h4>
+				<textarea class="form-control" rows="3" ng-model="course.requirement" name="requirement" tooltip-enable="{{!form.requirement.$valid}}" tooltip-placement="top" uib-tooltip-template="'requirementValidate.html'" ng-class="!form.requirement.$valid&&form.$submitted?'err':''" ng-required="true" ng-minlength="40" ng-maxlength="1000"></textarea>
+				<!-- VALIDATE TEN KHOA HOC -->
+				<script type="text/ng-template" id="requirementValidate.html">
+					<div ng-show="form.requirement.$error.required">Bạn phải nhập Yêu cầu của khóa học</div>
+					<div ng-show="form.requirement.$error.minlength">Yêu cầu của khóa học phải lớn hơn 40 ký tự</div>
+					<div ng-show="form.requirement.$error.maxlength">Yêu cầu của khóa học phải nhỏ hơn 1000 ký tự</div>
+				</script>
+				<!-- END -->
+			</div>
+			<div class="col-xs-12">
+				<h4>Lợi ích từ khóa học</h4>
+				<textarea class="form-control" rows="3" ng-model="course.benefit" name="benefit" tooltip-enable="{{!form.benefit.$valid}}" tooltip-placement="top" uib-tooltip-template="'benefitValidate.html'" ng-class="!form.benefit.$valid&&form.$submitted?'err':''" ng-required="true" ng-minlength="40" ng-maxlength="1000"></textarea>
+				<!-- VALIDATE TEN KHOA HOC -->
+				<script type="text/ng-template" id="benefitValidate.html">
+					<div ng-show="form.benefit.$error.required">Bạn phải nhập Lợi ích từ khóa học</div>
+					<div ng-show="form.benefit.$error.minlength">Lợi ích từ khóa học phải lớn hơn 40 ký tự</div>
+					<div ng-show="form.benefit.$error.maxlength">Lợi ích từ khóa học phải nhỏ hơn 1000 ký tự</div>
+				</script>
+				<!-- END -->
+			</div>
+			<div class="col-xs-12">
+				<h4>Đối tượng mục tiêu</h4>
+				<textarea class="form-control" rows="3" ng-model="course.objectAndGoals" name="objectAndGoals" tooltip-enable="{{!form.objectAndGoals.$valid}}" tooltip-placement="top" uib-tooltip-template="'objectAndGoalsValidate.html'" ng-class="!form.objectAndGoals.$valid&&form.$submitted?'err':''" ng-required="true" ng-minlength="40" ng-maxlength="1000"></textarea>
+				<!-- VALIDATE TEN KHOA HOC -->
+				<script type="text/ng-template" id="objectAndGoalsValidate.html">
+					<div ng-show="form.objectAndGoals.$error.required">Bạn phải nhập Đối tượng mục tiêu khóa học</div>
+					<div ng-show="form.objectAndGoals.$error.minlength">Đối tượng mục tiêu khóa học phải lớn hơn 40 ký tự</div>
+					<div ng-show="form.objectAndGoals.$error.maxlength">Đối tượng mục tiêu khóa học phải nhỏ hơn 1000 ký tự</div>
+				</script>
+				<!-- END -->
+			</div>
+		</div>
+		<hr class="style12">
+		<h3>Bài Giảng</h3>
+		<div>
+			<button class="btn btn-warning" ng-click="newChapter()">Tạo mới 1 chapter</button>
+		</div>
+		<div class="background-fff pd-10 mg-bottom-10 boder-chapter" ng-repeat="(iChapter, chapter) in course.listCourseCategory" style=" background-image: url('/images/chapter.png');">
+			<div ng-if="chapter.UIshow==false" class="relative">
+				<div>
+					<h3 class="mg-0"><div class="label btn-facebook color-fff">Chapter {{iChapter + 1}} : {{chapter.name}}</div>
+					</h3>
+				</div>
+				<div class=" absolute-t-0-r-0">
+					<button class="btn btn-default" ng-click="swapChapter(iChapter,iChapter-1)"><i class="fa fa-hand-o-up"></i></button>
+					<button class="btn btn-default" ng-click="swapChapter(iChapter,iChapter+1)"><i class="fa fa-hand-o-down"></i></button>
+					<button class="btn btn-info btn-sm color-fff opa-08" ng-click="chapter.UIshow=true;"><i class="fa fa-eye"></i></button>
+					<button class="btn btn-danger btn-sm color-fff opa-08" ng-click="deleteChapter(iChapter)"><i class="fa fa-times"></i></button>
+				</div>
+			</div>
+			<div ng-if="chapter.UIshow==true" class="relative">	
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon bold" id="basic-addon1">Chapter {{iChapter + 1}}</span>
+							<input type="text" class="form-control" placeholder="Tên chapter" ng-model="chapter.name">
+						</div>
+					</div>
+				</div>
+				<div class="pd-10" ng-repeat="(iLesson, lesson) in chapter.listLesson">
+					<div class="row" ng-if="!lesson.UIshow">
+						<div class="col-xs-6">
+							<h3 class="mg-0"><span class="label label-primary" ng-click="lesson.UIshow=true;">Bài {{iChapter + 1}}.{{iLesson + 1}}: {{lesson.name}}</span></h3>
+						</div>
+						<div class="col-xs-6">
+							<div class="pull-right">
+								<button class="btn btn-default" ng-click="swapLesson(iChapter,iLesson,iLesson - 1)"><i class="fa fa-level-up"></i></button>
+								<button class="btn btn-default" ng-click="swapLesson(iChapter,iLesson,iLesson + 1)"><i class="fa fa-level-down"></i></button>
+								<button class="btn btn-danger" ng-click="deleteLesson(iChapter, iLesson)"><i class="fa fa-times"></i></button>
+							</div>
+						</div>
+					</div>
+					<div class="row border-box-lession relative pd-top-10 background-fff" ng-if="lesson.UIshow">
+						<div class="col-sm-12">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1">Bài {{iChapter + 1}}.{{iLesson + 1}}</span>
+								<input type="text" class="form-control" placeholder="Tiêu đề" ng-model="lesson.name">
+							</div>
+						</div>
+						<div class="col-sm-6 mg-top-20">
+							<div class="input-group">
+								<span class="input-group-addon">Link video</span>
+								<input type="text" class="form-control" placeholder="Link video" ng-change="getVideoStream(iChapter, iLesson)" ng-model="lesson.linkVideo">
+							</div>
+						</div>
+						<div class="col-sm-6 mg-top-20">
+							<div class="input-group">
+								<span class="input-group-addon" id="basic-addon1">Nguồn</span>
+								<select class="form-control" placeholder="Tên khóa học" ng-change="getVideoStream(iChapter, iLesson)" ng-model="lesson.typeVideo">
+									<option value="drive">Google drive</option>
+									<option value="youtube">Youtube</option>
+									<option value="direct">Link direct</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div ng-if="lesson.typeVideo=='youtube' && lesson.linkVideo!='' && lesson.streamLink">
+								<iframe width="100%" height="500" ng-src="{{lesson.streamLink}}" frameborder="0" allowfullscreen></iframe>
+							</div>
+							<div ng-if="lesson.typeVideo=='drive' && lesson.linkVideo!='' && lesson.streamLink">
+								<iframe src="{{lesson.streamLink}}" width="100%" height="500"></iframe>
+							</div>
+							<div ng-if="lesson.typeVideo=='direct' && lesson.linkVideo!='' && lesson.streamLink">
+								<video width="100%" height="500" controls>
+									<source src="{{lesson.streamLink}}" type="video/mp4">
+									<source src="{{lesson.streamLink}}" type="video/ogg">
+								Your browser does not support the video tag.
+								</video>
+							</div>
+						</div>
+						<!-- viewHTML -->
+						<div class="col-xs-12 mg-top-20">
+							<h5>Bài Giảng</h5>
+							<div trumbowyg-ng
+								ng-model="lesson.content"
+								ng-disabled="disabledState"
+								editor-config="{btns: ['bold','italic','insertImage','|','link']}">
+							</div>
+						</div>
+						<div class="col-xs-12 mg-top-10">
+							<div><button class="btn btn-info" ng-click="newQuestion(iChapter, iLesson)">Tạo mới 1 câu hỏi</button></div>
+							<div ng-repeat="(iQuestion, question) in lesson.listQuestion">
+								<div class="row">
+									<div class="col-sm-9">
+										<input type="text" class="form-control" placeholder="Tiêu đề" ng-model="question.content">
+									</div>
+									<div class="col-sm-3">
+										<button class="btn btn-default" uib-popover-template="'answer.html'" type="button" popover-append-to-body="true" popover-placement="top">Câu trả lời</button>
+										<script type="text/ng-template" id="answer.html" >
+											<div class="form-group" ng-repeat="(iAnswer,answer) in question.listAnswer">
+												<div class="form-inline">
+													<div class="form-group">
+														<div class="input-group">
+															<div class="input-group-addon">Đúng ? <input type="checkbox" ng-model="answer.isTrue"></div>
+															<input type="text" class="form-control" placeholder="Nội dung" ng-model="answer.content">
+															<div class="input-group-addon btn-google color-fff" ng-click="deleteAnswer(iChapter, iLesson, iQuestion, iAnswer)">
+																<i class="fa fa-times"></i>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										   <button class="btn btn-success" ng-click="newAnswer(iChapter, iLesson, iQuestion)">Add a answer</button>
+										</script>
+										<button class="btn btn-danger" ng-click="deleteQuestion(iChapter, iLesson, iQuestion)"><i class="fa fa-times"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button class="btn btn-warning btn-sm color-fff opa-08 absolute-t-0-r-0 z-99" ng-click="lesson.UIshow=false;"><i class="fa fa-eye"></i></button>
+					</div>
+				</div>
+				<div class="row mg-top-10">
+					<div class="col-sm-6">
+						<button class="btn btn-facebook color-fff" ng-click="newLesson(iChapter)">Tạo mới 1 bài học</button>
+					</div>
+				</div>
+				<div class=" absolute-t-0-r-0">
+					<button class="btn btn-default" ng-click="swapChapter(iChapter,iChapter-1)"><i class="fa fa-hand-o-up"></i></button>
+					<button class="btn btn-default" ng-click="swapChapter(iChapter,iChapter+1)"><i class="fa fa-hand-o-down"></i></button>
+					<button class="btn btn-info btn-sm color-fff opa-08" ng-click="chapter.UIshow=false;"><i class="fa fa-eye-slash"></i></button>
+					<button class="btn btn-danger btn-sm color-fff opa-08" ng-click="deleteChapter(iChapter)"><i class="fa fa-times"></i></button>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<hr class="style12">
+			<button class="btn btn-success btn-lg" ng-click="validation(form.$valid,'update')">Update</button>
+			<button class="btn btn-danger btn-lg" ng-click="deleteCourse()" ng-if="course.status!='active'">Delete</button>
+			<button class="btn btn-warning btn-lg" ng-click="validation(form.$valid,'resend')" ng-if="course.status!='active'">Nộp lại</button>
+		</div>
+	</form>
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>
+
+<!-- Modal -->
+<div class="modal fade" id="review_upload_img" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+		<h3 class="modal-title">Lua chon khung hinh tren hinh anh cua ban</h3>
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	  </div>
+	  <div class="modal-body">
+		<div>
+		  <img id="img-in-modal" class="img-responsive" src="#" alt="Picture">
+		  <canvas id="crop-canvas" width="800" height="500" style="display: none"></canvas>
+		</div>
+	  </div>
+	  <div class="modal-footer">
+		<button id="cut-picture-btn" type="button" class="btn btn-primary" data-dismiss="modal">Chọn</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+  </div>
+</div>

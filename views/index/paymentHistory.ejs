@@ -1,0 +1,44 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<h3>Đã mua</h3>
+			<% for(var i=0; i<orderPaid.length; i++) {%>
+			<div class="row background-fff pd-10">
+				<div class="col-sm-3">
+					<img src="<%= orderPaid[i].course.picture%>" class="img-responsive">
+				</div>
+				<div class="col-sm-9">
+					<a class="course_title" href="#"><%= orderPaid[i].course.name%></a>
+					<div class="course_price">
+						<div class="course_price new">{{'<%= orderPaid[i].cost%>' | vnd}}</div>
+						<div class="course_paydate">{{'<%= orderPaid[i].datePay%>' | datetime}}</div>
+					</div>
+					<div><span class="bold">Note:</span> <%= orderPaid[i].note%></div>
+				</div>
+			</div>
+			<% } %>
+		</div>
+		<div class="col-sm-6">
+			<h3>Chưa thanh toán</h3>
+			<% for(var i=0; i<orderNoPay.length; i++) {%>
+			<div class="row background-fff pd-10">
+				<div class="col-sm-3">
+					<img src="<%= orderNoPay[i].course.picture%>" class="img-responsive">
+				</div>
+				<div class="col-sm-9">
+					<a class="course_title" href="#"><%= orderNoPay[i].course.name%></a>
+					<div class="course_price">
+						<div class="course_price new">{{'<%= orderNoPay[i].cost%>' | vnd}}</div>
+						<div class="course_paydate">{{'<%= orderNoPay[i].datePay%>' | datetime}}</div>
+					</div>
+					<div><span class="bold">Note:</span> <%= orderNoPay[i].note%></div>
+				</div>
+			</div>
+			<% } %>
+		</div>
+	</div>
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>

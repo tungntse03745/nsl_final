@@ -1,0 +1,63 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container-fluid">
+	<div class="row user-view-panel pd-10">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+			<div class="row">
+				<div class="col-md-3">
+					<img class="img-responsive mg-auto" src="<%=viewUser.avatar%>">
+				</div>
+				<div class="col-md-9 color-fff">
+					<div>
+						<h2><%=viewUser.fullname%></h2>
+						<h3><i class="fa fa-address-card-o" aria-hidden="true"></i> <%=viewUser.job%></h3>
+					</div>
+					<!-- <div ng-bind-html="'<%=viewUser.description %>' | space">
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<%if(relationCourse.length > 0){%>
+			<h2 class="mg-bottom-10 mg-top-0">Khóa học của <%=viewUser.fullname%></h2>
+		<%}%>
+		<!-- EJS -->
+		<% for(var i=0; i < relationCourse.length; i++) { %>
+		<div class="col-sm-4 col-md-3">
+			 <a href="/course/view/<%=relationCourse[i].id%>" class="thumbnail relative text-decoration-none">
+				<img src="<%= relationCourse[i].picture%>" class="img-responsive" alt="" />
+				<h5 class="course-title"><%= relationCourse[i].name%></h5>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="course-author">
+								<span><%=relationCourse[i].teacher.fullname%></span>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="course-sale">
+								<!-- EJS -->
+								<% if(relationCourse[i].price < relationCourse[i].oldPrice) { %>
+								<span class="old-price">Giá cũ: {{'<%= relationCourse[i].oldPrice%>'| vnd}}</span>
+								<%}%>
+								<!-- EJS END -->
+								<span class="new-price">{{'<%= relationCourse[i].price%>'| vnd}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- EJS -->
+				<% if(relationCourse[i].price < relationCourse[i].oldPrice) { %>
+				<span class="label label-sale">{{'<%= relationCourse[i].oldPrice%>-<%= relationCourse[i].price%>'| pricepercent}}</span>
+				<%}%>
+			 </a href="#">
+		</div>
+		<% } %>
+		<!-- EJS END -->
+	</div>
+</div>
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>
+

@@ -1,0 +1,199 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="detail-course-name">
+				<h1 class="title-course"><%= course.name%></h1>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8" style="position: relative;">
+			<img style="width: 100%; height: 100%" class="detail-thumbnail img-bg" src="<%=course.picture%>" alt="Tund01">
+		</div>
+		<div class="col-sm-4 relative">
+
+			<div class="form-in-card">
+				<div class="area-sale">
+
+					<p class="new-price">Giá : {{'<%= course.price%>'| vnd}}</p>
+
+				</div>
+				<table class="table table-info">
+					<tbody>
+						<tr>
+							<td class="td-icon">
+								<i class="fa fa-tags" aria-hidden="true"></i>
+							</td>
+							<td class="td-name">Thể loại</td>
+							<td class="td-detail">
+								<a href="/?category=<%=course.categoryId.id%>"><%= course.categoryId.name%></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="td-icon">
+								<i class="fa fa-star-half-o" aria-hidden="true"></i>
+							</td>
+							<td class="td-name">Cấp độ</td>
+							<td class="td-detail">
+							<a href="/?level=<%=course.levelId.id%>"><%= course.levelId.name%></a>
+							</td>
+						</tr>
+						<tr>
+							<td class="td-icon">
+								<i class="fa fa-book" aria-hidden="true"></i>
+							</td>
+							<td class="td-name">Số bài học</td>
+							<td class="td-detail"><%=course.totalLesson%></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="text-center" ng-init="$root.showAddToCartBtn=true">
+					<button ng-if="$root.showAddToCartBtn" class="btn btn-google w-200 pd-10 bold mg-auto mg-bottom-10 color-fff" ng-click="$root.addToCart('<%=course.id%>')">
+						<i class="fa fa-shopping-basket"></i> Thêm vào giỏ hàng
+					</button>
+
+					<button ng-if="!$root.showAddToCartBtn" class="btn btn-facebook w-200 pd-10 bold mg-auto mg-bottom-10 color-fff" ng-click="$root.addToCart('<%=course.id%>')">
+						<i class="fa fa-check-square-o"></i> Đã thêm vào giỏ hàng
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="pd-10 background-fff">
+				<div class="pull-left mg-right-10">
+					<img src="<%=course.teacher.avatar%>" class="media-teacher">
+				</div>
+				<div>
+					<p>Giảng viên</p>
+					<h4><%=course.teacher.fullname%></h4>
+					<a class="btn btn-default" href="/user/view/<%=course.teacher.id%>">Xem hồ sơ</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="pd-10 background-fff">
+				<h3>Mô tả khoá học</h3>
+				<div>
+					<div>
+						<h4>Tổng quát</h4>
+						<p><%=course.generalDescription%></p>
+					</div>
+						
+					<div ng-init="showCourseDescription=false" ng-if="showCourseDescription">
+						<h4>Yêu cầu của khóa học</h4>
+						<p><%=course.requirement%></p>
+						<h4>Lợi ích từ khóa học</h4>
+						<p><%=course.benefit%></p>
+						<h4>Đối tượng mục tiêu</h4>
+						<p><%=course.objectAndGoals%></p>
+					</div>
+				</div>
+			</div>
+			<div class="read-more">
+				<a class="load-more" ng-click="showCourseDescription=!showCourseDescription;">
+					<span ng-if="!showCourseDescription">Đọc thêm</span>
+					<span ng-if="showCourseDescription">Thu gọn</span>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8" ng-init="showLesson=false">
+			<div class="pd-10 background-fff" ng-if="!showLesson">
+				<%for(var iChapter = 0; iChapter < 1; iChapter++){%>
+				<div>
+					<h4 class="menu-title">Phần <%=iChapter + 1%>: <%=course.listLessonCategory[iChapter].name%></h4>
+				</div>
+				<div>
+					<% for(var iLesson = 0; iLesson < course.listLessonCategory[iChapter].lesson.length;iLesson++){%>
+					<div class="mg-top-10">
+						<div class="pull-left mg-right-10">
+							<img src="/images/play.png" class="media-play">
+						</div>
+						<div>
+							<div class="">Bài <%=iChapter + 1%>.<%=iLesson + 1%></div>
+							<div class=""><%=course.listLessonCategory[iChapter].lesson[iLesson].name%></div>
+						</div>
+					</div>
+					<%}%>
+				</div>
+				<%}%>
+			</div>
+			<div class="pd-10 background-fff" ng-if="showLesson">
+				<%for(var iChapter = 0; iChapter < course.listLessonCategory.length; iChapter++){%>
+				<div>
+					<h4 class="menu-title">Phần <%=iChapter + 1%>: <%=course.listLessonCategory[iChapter].name%></h4>
+				</div>
+				<div>
+					<% for(var iLesson = 0; iLesson < course.listLessonCategory[iChapter].lesson.length;iLesson++){%>
+					<div class="mg-top-10">
+						<div class="pull-left mg-right-10">
+							<img src="/images/play.png" class="media-play">
+						</div>
+						<div>
+							<div class="">Bài <%=iChapter + 1%>.<%=iLesson + 1%></div>
+							<div class=""><%=course.listLessonCategory[iChapter].lesson[iLesson].name%></div>
+						</div>
+					</div>
+					<%}%>
+				</div>
+				<%}%>
+			</div>
+			<%if(course.listLessonCategory.length > 1){%>
+			<div class="show-more-curriculums showed" ng-click="showLesson=!showLesson;">
+				<span ng-if="!showLesson">Đọc thêm...</span>
+				<span ng-if="showLesson">Thu gọn</span>
+			</div>
+			<%}%>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-8">
+			<div class="fb-comments" data-href="https://emyeunuoc.com/course/view/<%=course.id%>" data-numposts="4" data-width="100%"></div>
+		</div>
+	</div>
+	<div class="row">
+		<%if(course.relationCourse.length > 0){%>
+			<h2 class="mg-bottom-10 mg-top-0">Các khóa học liên quan</h2>
+		<%}%>
+		<!-- EJS -->
+		<% for(var i=0; i < course.relationCourse.length; i++) { %>
+		<div class="col-sm-4">
+			 <a href="/course/view/<%=course.relationCourse[i].id%>" class="thumbnail relative text-decoration-none">
+				<img src="<%= course.relationCourse[i].picture%>" class="img-responsive" alt="" />
+				<h5 class="course-title"><%= course.relationCourse[i].name%></h5>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-6">
+							<div class="course-author">
+								<span><%=course.relationCourse[i].teacher.fullname%></span>
+							</div>
+						</div>
+						<div class="col-xs-6">
+							<div class="course-sale">
+								<!-- EJS -->
+								<% if(course.relationCourse[i].price < course.relationCourse[i].oldPrice) { %>
+								<span class="old-price">Giá cũ: {{'<%= course.relationCourse[i].oldPrice%>'| vnd}}</span>
+								<%}%>
+								<!-- EJS END -->
+								<span class="new-price">{{'<%= course.relationCourse[i].price%>'| vnd}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- EJS -->
+				<% if(course.relationCourse[i].price < course.relationCourse[i].oldPrice) { %>
+				<span class="label label-sale">{{'<%= course.relationCourse[i].oldPrice%>-<%= course.relationCourse[i].price%>'| pricepercent}}</span>
+				<%}%>
+			 </a>
+		</div>
+		<% } %>
+		<!-- EJS END -->
+	</div>
+</div>
+<%- partial ('../common/footer.ejs') %>

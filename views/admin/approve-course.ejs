@@ -1,0 +1,274 @@
+<%- layout ('../common/admin-template.ejs') %>
+<!-- Page Content -->
+<div id="page-content-wrapper" ng-controller="approveCourseCtr">
+	<div class="container-fluid">
+		<div class="panel panel-default panel-table">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col col-xs-6 col-sm-4">
+						<h3 class="panel-title bold">Approve course</h3>
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-bordered table-list">
+					<thead>
+						<tr>
+							<th class="hidden-xs text-center">ID</th>
+							<th>Name</th>
+							<th>Category</th>
+							<th>Level</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="c in courses">
+							<td class="hidden-xs" align="center">{{c.id}}</td>
+							<td>{{c.name}}</td>
+							<td>{{c.categoryId.name}}</td>
+							<td>{{c.levelId.name}}</td>
+							<td align="center">
+								<a class="btn btn-danger" ng-click="view(c.userId, c.id)" data-toggle="modal" data-target="#viewTeacherModal">READ</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="panel-footer">
+				<div class="row">
+					<div class="col col-xs-4">Page {{pagging.current + 1}} of {{pagging.pages}}
+					</div>
+					<div class="col col-xs-8">
+						<ul class="pagination hidden-xs pull-right">
+							<li><button class="btn btn-default" ng-click="prePage()">«</button></li>
+							<li><button class="btn btn-default" ng-click="nextPage()">»</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="viewTeacherModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">{{course.name}}</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-xs-6 col-sm-3">
+								<img class="img-responsive" src="{{viewTeacher.avatar}}">
+							</div>
+							<div class="col-xs-6">
+								<p class="bold">Họ và tên:{{viewTeacher.fullname}}</p>
+								<p class="bold">Nghề nghiệp: {{viewTeacher.job}}</p>
+								<p class="bold">Email: {{viewTeacher.email}}</p>
+							</div>
+						</div>
+						<hr class="style12">
+						<div>
+							<div>
+								<form name="form" class="validate-input" novalidate>
+									<div class="row">
+										<div class="col-sm-6 col-md-5 mg-top-20">
+											<div class="input-group validate-input">
+												<span class="input-group-addon">Tên khóa học</span>
+												<input type="text" class="form-control" disabled ng-model="course.name">
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 mg-top-20">
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon1">Thể loại</span>
+												<input type="text" class="form-control" disabled ng-model="course.category.name">
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-3 mg-top-20">
+											<div class="input-group">
+												<span class="input-group-addon" id="basic-addon1">Cấp độ</span>
+												<input type="text" class="form-control" disabled ng-model="course.level.name">
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 mg-top-20">
+											<div class="input-group validate-input">
+												<span class="input-group-addon">Giá </span>
+												<input type="text" class="form-control" disabled ng-model="course.price">
+											</div>
+											<div class="mg-top-10">
+												<span class="course-price">{{course.price | vnd}}</span>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 mg-top-20">
+											<div class="input-group validate-input">
+												<span class="input-group-addon">Giá cũ</span>
+												<input type="text" class="form-control" disabled ng-model="course.oldPrice">
+											</div>
+											<div class="mg-top-10">
+												<span class="course-price">{{course.oldPrice | vnd}}</span>
+											</div>
+										</div>
+										<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-md-offset-4 ">
+											<img id="picture-preview" class="img-responsive" src="{{course.pictureData}}">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-xs-12">
+											<h4>Mô tả tổng quát khóa học</h4>
+											<textarea type="text" class="form-control" disabled ng-model="course.generalDescription"></textarea>
+										</div>
+										<div class="col-xs-12">
+											<h4>Yêu cầu của khóa học</h4>				
+											<textarea type="text" class="form-control" disabled ng-model="course.requirement"></textarea>
+										</div>
+										<div class="col-xs-12">
+											<h4>Lợi ích từ khóa học</h4>
+											<textarea type="text" class="form-control" disabled ng-model="course.benefit"></textarea>
+										</div>
+										<div class="col-xs-12">
+											<h4>Đối tượng mục tiêu</h4>
+											<textarea type="text" class="form-control" disabled ng-model="course.objectAndGoals"></textarea>
+										</div>
+									</div>
+									<h3>Bài Giảng</h3>
+									<div class="background-fff pd-10 mg-bottom-10 boder-chapter" ng-repeat="(iChapter, chapter) in course.listCourseCategory" style=" background-image: url('/images/chapter.png');">
+										<div ng-if="chapter.UIshow==false" class="relative">
+											<div>
+												<h3 class="mg-0"><div class="label btn-facebook color-fff">Chapter {{iChapter + 1}} : {{chapter.name}}</div>
+												</h3>
+											</div>
+											<div class=" absolute-t-0-r-0">
+												<button class="btn btn-info btn-sm color-fff opa-08" ng-click="chapter.UIshow=true;"><i class="fa fa-eye"></i></button>
+											</div>
+										</div>
+										<div ng-if="chapter.UIshow==true" class="relative">	
+											<div class="row">
+												<div class="col-sm-6">
+													<div class="input-group">
+														<span class="input-group-addon bold" id="basic-addon1">Chapter {{iChapter + 1}}</span>
+														<input type="text" class="form-control" disabled placeholder="Tên chapter" ng-model="chapter.name">
+													</div>
+												</div>
+											</div>
+											<div class="pd-10" ng-repeat="(iLesson, lesson) in chapter.listLesson">
+												<div class="row" ng-if="!lesson.UIshow">
+													<div class="col-xs-6">
+														<h3 class="mg-0"><span class="label label-primary" ng-click="lesson.UIshow=true;">Bài {{iChapter + 1}}.{{iLesson + 1}}: {{lesson.name}}</span></h3>
+													</div>
+												</div>
+												<div class="row border-box-lession relative pd-top-10 background-fff" ng-if="lesson.UIshow">
+													<div class="col-sm-12">
+														<div class="input-group">
+															<span class="input-group-addon" id="basic-addon1">Bài {{iChapter + 1}}.{{iLesson + 1}}</span>
+															<input type="text" class="form-control" disabled placeholder="Tiêu đề" ng-model="lesson.name">
+														</div>
+													</div>
+													<div class="col-sm-6 mg-top-20">
+														<div class="input-group">
+															<span class="input-group-addon">Link video</span>
+															<input type="text" class="form-control" disabled placeholder="Link video" ng-change="getVideoStream(iChapter, iLesson)" ng-model="lesson.linkVideo">
+														</div>
+													</div>
+													<div class="col-sm-6 mg-top-20">
+														<div class="input-group">
+															<span class="input-group-addon" id="basic-addon1">Nguồn</span>
+															<select class="form-control" disabled placeholder="Tên khóa học" ng-change="getVideoStream(iChapter, iLesson)" ng-model="lesson.typeVideo">
+																<option value="drive">Google drive</option>
+																<option value="youtube">Youtube</option>
+																<option value="direct">Link direct</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-xs-12">
+														<div ng-if="lesson.typeVideo=='youtube' && lesson.linkVideo!='' && lesson.streamLink">
+															<iframe width="100%" height="500" ng-src="{{lesson.streamLink}}" frameborder="0" allowfullscreen></iframe>
+														</div>
+														<div ng-if="lesson.typeVideo=='drive' && lesson.linkVideo!='' && lesson.streamLink">
+															<iframe src="{{lesson.streamLink}}" width="100%" height="500"></iframe>
+														</div>
+														<div ng-if="lesson.typeVideo=='direct' && lesson.linkVideo!='' && lesson.streamLink">
+															<video width="100%" height="500" controls>
+																<source src="{{lesson.streamLink}}" type="video/mp4">
+																<source src="{{lesson.streamLink}}" type="video/ogg">
+															Your browser does not support the video tag.
+															</video>
+														</div>
+													</div>
+													<!-- viewHTML -->
+													<div class="col-xs-12 mg-top-20">
+														<h5>Bài Giảng</h5>
+														<style type="text/css">._3u15{z-index: -1 !important;}</style>
+														<div trumbowyg-ng
+															ng-model="lesson.content" 
+															editor-config="{btns: ['viewHTML','bold','italic','insertImage','|','link']}">
+														</div>
+													</div>
+													<div class="col-xs-12 mg-top-10">
+														<div ng-repeat="(iQuestion, question) in lesson.listQuestion">
+															<div class="row">
+																<div class="col-sm-9">
+																	<input type="text" class="form-control" disabled placeholder="Tiêu đề" ng-model="question.content">
+																</div>
+																<div class="col-sm-3">
+																	<button class="btn btn-default" uib-popover-template="'answer.html'" type="button" popover-append-to-body="true" popover-placement="top">Câu trả lời</button>
+																	<script type="text/ng-template" id="answer.html" >
+																		<div class="form-group" ng-repeat="(iAnswer,answer) in question.listAnswer">
+																			<div class="form-inline">
+																				<div class="form-group">
+																					<div class="input-group">
+																						<div class="input-group-addon">Đúng ? <input type="checkbox" ng-model="answer.isTrue"></div>
+																						<input type="text" class="form-control" disabled placeholder="Nội dung" ng-model="answer.content">
+																						<div class="input-group-addon btn-google color-fff" ng-click="deleteAnswer(iChapter, iLesson, iQuestion, iAnswer)">
+																							<i class="fa fa-times"></i>
+																						</div>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</script>
+																</div>
+															</div>
+														</div>
+													</div>
+													<button class="btn btn-warning btn-sm color-fff opa-08 absolute-t-0-r-0 z-99" ng-click="lesson.UIshow=false;"><i class="fa fa-eye"></i></button>
+												</div>
+											</div>
+											<div class=" absolute-t-0-r-0">
+												<button class="btn btn-info btn-sm color-fff opa-08" ng-click="chapter.UIshow=false;"><i class="fa fa-eye-slash"></i></button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary pull-left" data-dismiss="modal" ng-click="activeCourse(course.id, course.name)">Kích hoạt</button>
+						<button type="button" class="btn btn-danger pull-left" data-toggle="modal" data-target="#rejectReasonModal">Từ chối</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal -->
+	<div id="rejectReasonModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Modal Header</h4>
+				</div>
+				<div class="modal-body">
+					<p>Reason reject</p>
+					<textarea class="form-control" ng-model="adminMessage"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="rejectCourse(course.id, course.name)">Ok</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

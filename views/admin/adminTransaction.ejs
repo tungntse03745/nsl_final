@@ -1,0 +1,90 @@
+<%- layout ('../common/admin-template.ejs') %>
+<!-- Page Content -->
+<div id="page-content-wrapper" ng-controller="adminTransactionCtr">
+	<div class="container-fluid">
+		<div class="panel panel-default panel-table">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col col-xs-3">
+						<h3 class="panel-title bold">Quản Lý Lương GV</h3>
+					</div>
+					<div class="col col-xs-3">
+						<select class="form-control" ng-model="searchStatus">
+					      <option ng-value="false">Not Pay</option>
+					      <option ng-value="true">Paid</option>
+					    </select>
+					</div>
+					<div class="col col-xs-6">
+						<input type="text" class="form-control" placeholder="Search by note" ng-model="searchNote">
+					</div>
+				</div>
+			</div>
+			<div class="panel-body">
+				<table class="table table-striped table-bordered table-list">
+					<thead>
+						<tr>
+							<th>Thời Gian</th>
+							<th>Email</th>
+							<th>Họ Tên</th>
+							<th>Điện Thoại</th>
+							<th>Lương</th>
+							<th>Ghi Chú</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="trans in transactions">
+							<td><label style="font-size: 15px" class="label label-primary">{{trans.createdAt | datetime}}</label></td>
+							<td>
+								<a uib-popover-template="'teacherPopo.html'" popover-placement="auto" popover-trigger="'outsideClick'" popover-append-to-body="true">{{trans.teacher.email}}</a>
+								<script type="text/ng-template" id="teacherPopo.html">
+									<div>
+										<div>
+											<img width="70" height="70" src="{{trans.teacher.avatar}}"></div>
+										</div>
+										<div>
+											<h5>Balance: <span class="new-price" style="font-size: 12px">{{trans.teacher.balance | vnd}}</span></h5>
+											<h5>Name: {{trans.teacher.fullname}}</h5>
+											<h5>Phone: {{trans.teacher.phone}}</h5>
+											<h5>Email: {{trans.teacher.email}}</h5>
+											<h5>Indentity Card: {{trans.teacher.indentityCard}}</h5>
+											<h5>Job: {{trans.teacher.job}}</h5>
+											<h5>Address: {{trans.teacher.address}}</h5>
+										</div>
+									</div>
+								</script>
+							</td>
+							<td>{{trans.teacher.fullname}}</td>
+							<td>{{trans.teacher.phone}}</td>
+							<td><span class="new-price" style="font-size: 12px">{{trans.reqMoney | vnd}}</span></td>
+							<td>
+								<button class="btn btn-info" uib-popover-template="'notePopo.html'" popover-placement="auto" popover-trigger="'outsideClick'" popover-append-to-body="true">View</button>
+								<script type="text/ng-template" id="notePopo.html">
+									<div style="white-space: pre-line">
+										{{trans.note}}
+									</div>
+								</script>
+							</td>
+							<td>
+								<a ng-if="!trans.status" class="btn btn-success" ng-click="confirm(trans.id)" data-toggle="modal" data-target="#viewTeacherModal">Confirm</a>
+								<a ng-if="trans.status" class="btn btn-danger" ng-click="confirm(trans.id)" data-toggle="modal" data-target="#viewTeacherModal">Unconfirm</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="panel-footer">
+				<div class="row">
+					<div class="col col-xs-4">Page {{pagging.current + 1}} of {{pagging.pages}}
+					</div>
+					<div class="col col-xs-8">
+						<ul class="pagination hidden-xs pull-right">
+							<li><button class="btn btn-default" ng-click="prePage()">«</button></li>
+							<li><button class="btn btn-default" ng-click="nextPage()">»</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

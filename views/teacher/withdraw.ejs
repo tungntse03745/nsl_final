@@ -1,0 +1,67 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container" ng-controller="withdrawCtr">
+	<h2>Rút tiền về tài khoản</h2>
+	<%var balance = parseInt(user.balance)*90/100%>
+	<div><h3 style="display: inline-block;">Số dư:</h3> <span class="new-price">{{'<%=balance %>'| vnd}}</span></div>
+	<form name="withdrawForm" class="validate-input" novalidate ng-submit="submit(withdrawForm.$valid)">
+		<validate-input class="mg-bottom-10" v-model="money" v-name="money" v-form="withdrawForm" v-type="number" v-placeholder="Nhập số tiền muốn rút" v-tooltip-placement="top" v-required="true" v-min="100000" v-max="<%= user.balance%>"></validate-input>
+		<div><span class="course-price">{{money | vnd}}</span></div>
+		<div class="row" ng-show="withdrawForm.money.$valid">
+			<div class="col-sm-6">
+				<textarea class="form-control" rows="25" ng-model="note" name="note" tooltip-enable="{{!withdrawForm.note.$valid}}" tooltip-placement="top" uib-tooltip-template="'noteValidate.html'" ng-class="!withdrawForm.note.$valid&&withdrawForm.$submitted?'err':''" ng-required="true" ng-minlength="40" ng-maxlength="4000" placeholder="Thông tin thanh toán"></textarea>
+				<!-- VALIDATE TEN KHOA HOC -->
+				<script type="text/ng-template" id="noteValidate.html">
+					<div ng-show="withdrawForm.note.$error.required">Hãy điền thông tin thanh toán</div>
+					<div ng-show="withdrawForm.note.$error.minlength">Phải lớn hơn 100 ký tự</div>
+					<div ng-show="withdrawForm.note.$error.maxlength">Phải nhỏ hơn 2000 ký tự</div>
+				</script>
+				<!-- END -->
+			</div>{{note}}
+			<div class="col-sm-6">
+				<h3>Sau khi nhận được yêu cầu rút tiền.Chúng tôi sẽ gọi điện cho bạn để xác thực và trả tiền cho bạn.Bạn hãy điền theo mẫu sau vào form thông tin thanh toán</h3>
+				<div class="bs-callout bs-callout-danger">
+					<h2>Số Tài Khoản:     002 1000 252 385</h2>
+
+					<h2>Chủ tài khoản:   Công ty TNHH Techmaster Việt Nam</h2>
+
+					<h2>Ngân hàng:        Ngân hàng Vietcombank, Chi nhánh Hà Nội</h2>
+					<h3>Số điện thoại:016xxxxxxx</h3>
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-success">Rút</button>
+	</form>
+	<div>
+		<% for(var i=0; i<transactions.length; i++) {%>
+			<div class="background-fff pd-10 mg-top-10">
+				<div class="row">
+					<div class="col-xs-6 col-sm-3">
+						{{'<%=transactions[i].createdAt%>' | datetime}}
+					</div>
+					<div class="col-xs-6 col-sm-3">
+						{{'<%=transactions[i].reqMoney%>' | vnd}}
+					</div>
+					<div class="col-xs-6 col-sm-3">
+						<button class="btn btn-info" uib-popover-template="'notePopo<%=i%>.html'" popover-placement="auto" popover-trigger="'outsideClick'" popover-append-to-body="true">Note</button>
+						<script type="text/ng-template" id="notePopo<%=i%>.html">
+							<div style="white-space: pre-line">
+								<%=transactions[i].note%>
+							</div>
+						</script>
+					</div>
+					<div class="col-xs-6 col-sm-3">
+						<% if(!transactions[i].status) {%>
+							<label style="font-size: 15px" class="label label-warning">Đang xử lý <i class="fa fa-spinner fa-spin"></i></label>
+						<% } %>
+						<% if(transactions[i].status) {%>
+							<label style="font-size: 15px" class="label label-success">Đã rút<i class="fa fa-check-circle-o"></i></label>
+						<% } %>
+					</div>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>

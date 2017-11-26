@@ -1,0 +1,41 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-3 col-sm-push-9">
+			<div class="background-fff pd-10 text-center">
+				<div><h3>Tổng:</h3></div>
+				<div class="total_price">{{$root.listCartMoney | vnd}}</div>
+				<div class="discount_price" ng-if="$root.listCartMoneySave > 0">
+					Tiết kiệm:
+					<span>{{$root.listCartMoneySave | vnd}}</span>
+				</div>
+				<div>
+					<a href="/purchase" class="btn btn-google w-100-percent pd-10 bold color-fff mg-auto mg-top-bottom-10">Thanh toán</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-9 col-sm-pull-3">
+			<div class="background-fff pd-10">
+				<div class="row" ng-repeat="course in $root.listCart">
+					<div class="col-sm-3">
+						<img src="{{course.picture}}" class="img-responsive">
+					</div>
+					<div class="col-sm-9">
+						<button class="btn btn-default pull-right" ng-click="$root.destroyItemCart(course.id)"><i class="fa fa-times" aria-hidden="true"></i></button>
+						<a class="course_title" href="/course/view/{{course.id}}">{{course.name}}</a>
+						<div class="course_instructor">
+							{{course.userId.fullname}}
+						</div>
+						<div class="course_price">
+							<div class="course_price new">{{course.price | vnd}}</div>
+							<div class="course_price old" ng-if="course.oldPrice > course.price">{{course.oldPrice | vnd}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>

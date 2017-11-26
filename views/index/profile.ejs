@@ -1,0 +1,182 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container" ng-controller="myProfileCtr">
+	<div class="background-fff pd-10">
+		<div class="row">
+			<div class="col-sm-4 col-md-3 col-lg-2">
+				<input id="upload-img" type="file" accept=".png, .jpg, .jpeg" style="display: none" />
+				<div class="table-user-information-avatar" align="center">
+					<img class="avatar-image-root" alt="User Pic" src="{{user.avatar}}"> 
+					<div class="table-user-information-avatar-wrapper">
+						<div class="camera-upload-wrapper">
+							<i id="camera-upload" class="fa fa-camera fa-2x" ng-click="openInputFile()"></i>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+			<div class="col-sm-8 col-md-9 col-lg-10">
+				<form name="editprofileform" class="validate-input" novalidate>
+					<h3 class="mg-0">Thông tin cơ bản</h3>
+					<div class="row pd-top-10">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Họ tên đầy đủ
+						</div>
+						<div class="col-sm-7">
+							<validate-input class="mg-bottom-10" v-model="user.fullname" v-name="fullname" v-form="editprofileform" v-type="text" v-placeholder="Tên đầy đủ" v-tooltip-placement="top" v-required="true" v-min-length="3" v-max-length="30"></validate-input>
+						</div>
+					</div>
+					<!-- EJS -->
+					<% if (user.email != null) { %>
+					<div class="row pd-top-10">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Email
+						</div>
+						<div class="col-sm-7">
+							<%= user.email%>
+						</div>
+					</div>
+					<%}%>
+					<!-- EJS END -->
+					<!-- EJS -->
+					<% if (user.job != null) { %>
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Nghề nghiệp
+						</div>
+						<div class="col-sm-7">
+							<validate-input class="mg-bottom-10" v-model="user.job" v-name="job" v-form="editprofileform" v-type="text" v-placeholder="Nghề nghiệp" v-tooltip-placement="top" v-max-length="45"></validate-input>
+						</div>
+					</div>
+					<%}%>
+					<!-- EJS END -->
+					<!-- EJS -->
+					<% if (user.role == 'student') { %>
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Giới thiệu về bản thân
+						</div>
+						<div class="col-sm-7">
+							<textarea class="form-control" rows="3" placeholder="Đôi dòng giới thiệu về bản thân bạn" ng-model="user.description" name="description" tooltip-enable="{{!editprofileform.description.$valid}}" tooltip-placement="top" uib-tooltip-template="'descriptionValidate.html'" ng-class="!editprofileform.description.$valid&&editprofileform.$submitted?'err':''" ng-maxlength="1000" ng-trim="false"></textarea>
+
+
+
+							<!-- VALIDATE description -->
+
+							<script type="text/ng-template" id="descriptionValidate.html">
+								<div ng-show="editprofileform.description.$error.maxlength">mô tả phải nhỏ hơn 1000 ký tự</div>
+							</script>
+							<!--// Change Password-->
+
+						</div>
+					</div>
+					<%}%>
+					<!-- EJS -->
+					<% if (user.role == 'teacher') { %>
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Tài khoản:
+						</div>
+						<div class="col-sm-7">
+							<h4><label class="label label-danger">{{user.balance | vnd}}</label></h4>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Tuổi
+						</div>
+						<div class="col-sm-7">
+							<validate-input class="mg-bottom-10" v-model="user.age" v-name="age" v-form="editprofileform" v-type="number" v-placeholder="Tuổi" v-tooltip-placement="top" v-required="true" v-min="18" v-max="100"></validate-input>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Số điện thoại
+						</div>
+						<div class="col-sm-7">
+							<validate-input class="mg-bottom-10" v-model="user.phone" v-name="phone" v-form="editprofileform" v-type="text" v-placeholder="Số điện thoại" v-tooltip-placement="top" v-required="true" v-custom-validations="phoneValidation"></validate-input>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Số chứng minh nhân dân
+						</div>
+						<div class="col-sm-7">
+							<validate-input class="mg-bottom-10" v-model="user.indentityCard" v-name="indentityCard" v-form="editprofileform" v-type="text" v-placeholder="Số chứng minh nhân dân" v-tooltip-placement="top" v-required="true"></validate-input>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2">
+							Mô tả về bằng cấp,chứng chỉ
+						</div>
+						<div class="col-sm-7">
+							<div trumbowyg-ng
+								ng-model="user.description"
+								ng-disabled="disabledState"
+								editor-config="{btns: ['bold','italic','insertImage','|','link']}">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<% if (user.status == 'waiting') { %>
+							<h4>
+								<label class="label label-primary">
+									Đang đợi admin duyệt hồ sơ, sau đó có thể đăng bán khóa học
+									<i class="fa fa-spinner fa-spin"></i>
+								</label>
+							</h4>
+							<%}%>
+							<% if (user.status == 'reject') { %>
+							<h4>
+								<label class="label label-danger">
+									<i class="fa fa-exclamation-triangle"></i>
+									Hồ sơ của bạn bị từ chối, hãy hoàn thiện lại. Liên lạc với chúng tôi để nhận hỗ trợ
+								</label>
+							</h4>
+							<%}%>
+						</div>
+					</div>
+					<%}%>
+					<!-- END -->
+
+					<div class="row">
+						<div class="col-sm-4 col-md-3 col-lg-2"></div>
+						<div class="col-sm-7">
+							<button class="btn btn-google w-200 pd-10 bold color-fff mg-auto mg-top-bottom-10 pull-right" ng-click="submitEdit(editprofileform.$valid)">Lưu thay đổi</button>
+							<% if (user.status == 'waiting' || user.status == 'reject') { %>
+							<button class="btn btn-facebook w-200 pd-10 bold color-fff mg-auto mg-top-bottom-10 pull-right" ng-click="submitAprove()">Duyệt hồ sơ giáo viên</button>
+							<%}%>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>
+
+<!-- Modal -->
+<div class="modal fade" id="review_upload_img" aria-labelledby="modalLabel" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Lua chon khung hinh tren hinh anh cua ban</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <img id="img-in-modal" class="img-responsive" src="#" alt="Picture">
+          <canvas id="crop-canvas" width="320" height="320" style="display: none"></canvas>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="cut-picture-btn" type="button" class="btn btn-primary" data-dismiss="modal">Chọn</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- EJS -->

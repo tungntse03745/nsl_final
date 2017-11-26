@@ -1,0 +1,44 @@
+<%- partial ('../common/index-header.ejs') %>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="background-fff pd-10">
+				<center><h2>Hóa đơn</h2></center>
+				<hr>
+				<div>
+					<h3>Khóa Học<span class="pull-right">VND</span></h3><br>
+					<p  ng-repeat="course in $root.listCart">{{course.name}}<span class="pull-right">{{course.price | vnd}}</span></p>
+				</div>
+				<hr>
+				<div>
+					<p class="into_money">Thành tiền<span class="pull-right">{{$root.listCartMoney | vnd}}</span></p>
+				</div>
+				<hr>
+				<div>
+					<p class="into_vat">* giá trên đã bao gồm VAT</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-7">
+			<form name="paymentForm" class="validate-input" novalidate ng-submit="$root.payment(paymentForm.$valid)">
+				<div class="background-fff pd-10">
+					<h3>Bạn có thể đến bất kỳ ngân hàng nào ở Việt Nam (hoặc sử dụng Internet Banking) để chuyển tiền theo thông tin bên dưới:</h3>
+					<div class="bs-callout bs-callout-danger">
+						<h2>Số Tài Khoản:     002 1000 252 385</h2>
+
+						<h2>Chủ tài khoản:   Công ty TNHH FPT Việt Nam</h2>
+
+						<h2>Ngân hàng:        Ngân hàng Vietcombank, Chi nhánh Hà Nội</h2>
+						<h3>Nội dung chuyển khoản: "Mua khóa học từ NanoSkillsLeaning, số điện thoại:016xxxxxxx"</h3>
+						<h4>Sau khi nhận được thanh toán.Chúng tôi sẽ liên lạc với bạn để xác thực và kích hoạt khóa học cho bạn.</h4>
+						<validate-input class="mg-bottom-10" v-model="$root.note" v-name="phone" v-form="paymentForm" v-type="text" v-placeholder="Số điện thoại" v-tooltip-placement="top" v-required="true" v-custom-validations="$root.phoneValidation"></validate-input>
+					</div>
+					<div style="text-align: center;"><button class="btn btn-lg btn-primary">Mua khóa học</button></div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- /.container -->
+<!--Footer -->
+<%- partial ('../common/footer.ejs') %>

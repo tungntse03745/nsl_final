@@ -1,0 +1,88 @@
+<% layout('../layout.ejs') -%>
+<nav class="navbar navbar-default mg-0" role="navigation">
+	 <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				 <span class="sr-only">Toggle navigation</span>
+				 <span class="icon-bar"></span>
+				 <span class="icon-bar"></span>
+				 <span class="icon-bar"></span>
+				 </button>
+				 <a id="menu-toggle" class="navbar-brand" href="#"><i class="fa fa-outdent" aria-hidden="true"></i></a>
+				 <a class="navbar-brand" href="/admin">YOUR LOGO HERE</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				 <ul class="nav navbar-nav navbar-right">
+						<!-- EJS -->
+						<li class="dropdown">
+							 <a href="#" class="dropdown-toggle h-55" data-toggle="dropdown">
+							 	<div class="pull-left">
+							 		<img src="/images/avatar-default.png" width="34" height="34">
+							 	</div>
+							 	<div class="pull-right">
+								 	<p class="mg-0"><%= user.fullname%></p>
+								 	<p class="mg-0 font-size-12">Tài khoản</p>
+							 	</div>
+							 </a>
+							 <ul class="dropdown-menu min-w-230">
+									<li><a href="/logout" class="btn btn-default w-200 pd-10 bold mg-auto mg-top-bottom-10">Sign out</a></li>
+							 </ul>
+						</li>
+						<!-- END -->
+				 </ul>
+			</div>
+			<!-- /.navbar-collapse -->
+	 </div>
+	 <!-- /.container-fluid -->
+</nav>
+
+<div id="wrapper">
+
+	<!-- Sidebar -->
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+			<li class="sidebar-brand">
+				<a href="/admin" class="<% if (active == 'dashboard') { %>active<%}%>">
+					Bảng điều khiển NSL
+				</a>
+			</li>
+			<li>
+				<a href="/admin/approve-course" class="<% if (active == 'approveCourse') { %>active<%}%>">Xác Nhận Bán Khóa Học</a>
+			</li>
+			<li>
+				<a href="/admin/approve-teacher" class="<% if (active == 'approveTeacher') { %>active<%}%>">Xác Nhận Giáo Viên</a>
+			</li>
+			<li>
+				<a href="/admin/category" class="<% if (active == 'category') { %>active<%}%>">Quản Lý Môn Học</a>
+			</li>
+			<li>
+				<a href="/admin/level" class="<% if (active == 'level') { %>active<%}%>">Quản Lý Cấp Độ</a>
+			</li>
+			<li>
+				<a href="/admin/active-course" class="<% if (active == 'activeCourse') { %>active<%}%>">Kích Hoạt Khóa Học</a>
+			</li>
+			<li>
+				<a href="/admin/transaction" class="<% if (active == 'adminTransaction') { %>active<%}%>">Quản Lý Lương GV</a>
+			</li>
+		</ul>
+	</div>
+	<!-- /#sidebar-wrapper -->
+
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+		<div class="container-fluid">
+			<%- body %>
+		</div>
+	</div>
+	<!-- /#page-content-wrapper -->
+
+</div>
+<script>
+$("#menu-toggle").click(function(e) {
+	e.preventDefault();
+	$("#wrapper").toggleClass("toggled");
+});
+$("#menu-toggle").click();
+</script>
