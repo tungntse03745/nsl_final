@@ -19,7 +19,10 @@
                     if(res.data.message == 'success'){
                         utils.alert({
                             title:'Thông báo',
-                            msg: 'Đổi mật khẩu thành công !'
+                            msg: 'Đổi mật khẩu thành công !',
+                            callback:function(){
+                                    window.location = 'http://localhost:1337/';
+                                }
                         });
                     }
                 });

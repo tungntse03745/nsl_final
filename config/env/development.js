@@ -24,7 +24,7 @@ passport:{
       facebook:{
         clientID: "405743453161375", 
       clientSecret: "0b806b00aeb0e6b3eb1ffc90d6c53b64", 
-      callbackURL: "http://localhost:1337/login/facebook/callback",
+      callbackURL: "http://localhost:1337/login/facebook/callback/mycourse",
       profileFields: ['id','name', 'picture.width(320).height(320)']
       },
       google:{

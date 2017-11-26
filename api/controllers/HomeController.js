@@ -399,7 +399,7 @@ module.exports = {
 			})
 		}
 		getCourses().then(function(){
-			res.view('/repository/save', data);
+			res.view('index/repository.ejs', data);
 		}).catch(function(err){
 			res.notFound();
 		})

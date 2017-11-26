@@ -12,7 +12,7 @@
 				$scope.disable = false;
 				console.log(res.data)
 	  			if(res.data.message == 'success'){
-	  				location.reload();
+	  				 window.location = '/mycourse';  
 	  			}else if(res.data.message == 'email_not_found'){
 	  				utils.alert({
                         title:'Thông báo',

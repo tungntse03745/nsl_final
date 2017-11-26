@@ -62,23 +62,7 @@
 					<span class="course-price">{{course.price | vnd}}</span>
 				</div>
 			</div>
-			<div class="col-sm-6 col-md-4 mg-top-20">
-				<div class="input-group validate-input">
-					<span class="input-group-addon">Giá cũ</span>
-					<input type="number" class="form-control" placeholder="Có thể để trống" name="oldPrice" ng-model="course.oldPrice" tooltip-enable="{{!form.oldPrice.$valid}}" tooltip-placement="top" uib-tooltip-template="'oldPriceValidate.html'" ng-class="!form.oldPrice.$valid&&form.$submitted?'err':''" ng-required="true" min="0" max="100000000">
-					<span class="input-group-addon">VND</span>
-					<!-- VALIDATE GIA KHOA HOC -->
-					<script type="text/ng-template" id="oldPriceValidate.html">
-						<div ng-show="form.oldPrice.$error.max">Bạn phải nhập gía nhỏ hơn 100.000.000đ</div>
-						<div ng-show="form.oldPrice.$error.min">Bạn phải nhập gía lớn hơn hoặc bằng 0đ</div>
-						<div ng-show="form.oldPrice.$error.required">Bạn phải nhập gía</div>
-					</script>
-					<!-- END -->
-				</div>
-				<div class="mg-top-10">
-					<span class="course-price">{{course.oldPrice | vnd}}</span>
-				</div>
-			</div>
+			
 
 			<div class="col-sm-12 mg-top-20">
 				<div class="input-group">
@@ -138,13 +122,11 @@
 		</div>
 		<hr class="style12">
 		<h3>Bài Giảng</h3>
-		<div>
-			<button class="btn btn-warning" ng-click="newChapter()">Tạo mới 1 chapter</button>
-		</div>
+		
 		<div class="background-fff pd-10 mg-bottom-10 boder-chapter" ng-repeat="(iChapter, chapter) in course.listCourseCategory" style=" background-image: url('/images/chapter.png');">
 			<div ng-if="chapter.UIshow==false" class="relative">
 				<div>
-					<h3 class="mg-0"><div class="label btn-facebook color-fff">Chapter {{iChapter + 1}} : {{chapter.name}}</div>
+					<h3 class="mg-0"><div class="label btn-facebook color-fff">Chương {{iChapter + 1}} : {{chapter.name}}</div>
 					</h3>
 				</div>
 				<div class=" absolute-t-0-r-0">
@@ -158,7 +140,7 @@
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="input-group">
-							<span class="input-group-addon bold" id="basic-addon1">Chapter {{iChapter + 1}}</span>
+							<span class="input-group-addon bold" id="basic-addon1">Chương {{iChapter + 1}}</span>
 							<input type="text" class="form-control" placeholder="Tên chapter" ng-model="chapter.name">
 						</div>
 					</div>
@@ -223,35 +205,42 @@
 								editor-config="{btns: ['bold','italic','insertImage','|','link']}">
 							</div>
 						</div>
-						<div class="col-xs-12 mg-top-10">
-							<div><button class="btn btn-info" ng-click="newQuestion(iChapter, iLesson)">Tạo mới 1 câu hỏi</button></div>
+					<div class="col-xs-12 mg-top-10">
+							
 							<div ng-repeat="(iQuestion, question) in lesson.listQuestion">
-								<div class="row">
-									<div class="col-sm-9">
-										<input type="text" class="form-control" placeholder="Tiêu đề" ng-model="question.content">
-									</div>
-									<div class="col-sm-3">
-										<button class="btn btn-default" uib-popover-template="'answer.html'" type="button" popover-append-to-body="true" popover-placement="top">Câu trả lời</button>
-										<script type="text/ng-template" id="answer.html" >
-											<div class="form-group" ng-repeat="(iAnswer,answer) in question.listAnswer">
-												<div class="form-inline">
+								
+									<div class="col-sm-12">
+										<input type="text" class="form-control" placeholder="Câu hỏi" ng-model="question.content">
+										
+										
+										<div class="form-group" ng-repeat="(iAnswer,answer) in question.listAnswer ">
+												
 													<div class="form-group">
-														<div class="input-group">
+														<div class="input-group ">
+
+															<input type="text" class="form-control" placeholder="Câu trả lời" ng-model="answer.content">
+														
 															<div class="input-group-addon">Đúng ? <input type="checkbox" ng-model="answer.isTrue"></div>
-															<input type="text" class="form-control" placeholder="Nội dung" ng-model="answer.content">
-															<div class="input-group-addon btn-google color-fff" ng-click="deleteAnswer(iChapter, iLesson, iQuestion, iAnswer)">
+
+															<div class=" input-group-addon btn-google color-fff" ng-click="deleteAnswer(iChapter, iLesson, iQuestion, iAnswer)">
 																<i class="fa fa-times"></i>
 															</div>
 														</div>
 													</div>
-												</div>
+												
 											</div>
-										   <button class="btn btn-success" ng-click="newAnswer(iChapter, iLesson, iQuestion)">Add a answer</button>
+											<button class="btn btn-success " ng-click="newAnswer(iChapter, iLesson, iQuestion)">Thêm câu trả lời</button>
+										<script type="text/ng-template" id="answer.html" >
+											
+										   
 										</script>
 										<button class="btn btn-danger" ng-click="deleteQuestion(iChapter, iLesson, iQuestion)"><i class="fa fa-times"></i></button>
+									
 									</div>
-								</div>
+									
+								
 							</div>
+							<div><button class="btn btn-info" ng-click="newQuestion(iChapter, iLesson)">Tạo mới 1 câu hỏi</button></div>
 						</div>
 						<button class="btn btn-warning btn-sm color-fff opa-08 absolute-t-0-r-0 z-99" ng-click="lesson.UIshow=false;"><i class="fa fa-eye"></i></button>
 					</div>
@@ -269,12 +258,14 @@
 				</div>
 			</div>
 		</div>
-
+<div>
+			<button class="btn btn-warning" ng-click="newChapter()">Tạo mới 1 chương</button>
+		</div>
 		<div>
 			<hr class="style12">
-			<button class="btn btn-success btn-lg" ng-click="validation(form.$valid,'update')">Update</button>
-			<button class="btn btn-danger btn-lg" ng-click="deleteCourse()" ng-if="course.status!='active'">Delete</button>
-			<button class="btn btn-warning btn-lg" ng-click="validation(form.$valid,'resend')" ng-if="course.status!='active'">Nộp lại</button>
+			<button class="btn btn-success btn-lg" ng-click="validation(form.$valid,'update')">Cập nhật</button>
+			<button class="btn btn-danger btn-lg" ng-click="deleteCourse()" ng-if="course.status!='active'">Xóa</button>
+			<button class="btn btn-warning btn-lg" ng-click="validation(form.$valid,'resend')" ng-if="course.status!='active'">Gửi lại</button>
 		</div>
 	</form>
 </div>

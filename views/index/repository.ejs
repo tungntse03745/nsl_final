@@ -19,8 +19,8 @@
 			</li>
 
 			<li class="<% if (active == 'save') { %>active<%}%>">
-				<a href="#">
-					<span>Tiếp tục khóa học</span>
+				<a href="/repository/save">
+					<span>Khóa học chưa hoàn tất</span>
 				</a>
 			</li>
 
@@ -138,6 +138,40 @@
 	</div>
 	<% } %>
 	<!-- EJS END -->
+	<% if (active == 'save') { %>
+	<div class="row mg-top-10">
+		<!-- EJS -->
+		<% for(var i=0; i < courses.length; i++) { %>
+		<div class="col-md-4 col-sm-6 col-xs-12">
+			<a href="/repository/edit/<%= courses[i].id %>" class="thumbnail relative text-decoration-none">
+				<img src="<%= courses[i].picture%>" class="img-responsive" alt="" />
+				<h5 class="course-title"><%= courses[i].name%></h5>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-6">
+						</div>
+						<div class="col-xs-6">
+							<div class="course-sale">
+								<!-- EJS -->
+								<% if(courses[i].price < courses[i].oldPrice) { %>
+								<span class="old-price">Giá cũ: {{'<%= courses[i].oldPrice%>'| vnd}}</span>
+								<%}%>
+								<!-- EJS END -->
+								<span class="new-price">{{'<%= courses[i].price%>'| vnd}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- EJS -->
+				<% if(courses[i].price < courses[i].oldPrice) { %>
+				<span class="label label-sale">{{'<%= courses[i].oldPrice%>-<%= courses[i].price%>'| pricepercent}}</span>
+				<%}%>
+			 </a>
+		</div>
+		<% } %>
+		<!-- EJS END -->
+	</div>
+	<% } %>
 </div>
 <!-- /.container -->
 <!--Footer -->

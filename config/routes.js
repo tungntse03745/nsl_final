@@ -115,6 +115,8 @@ module.exports.routes = {
   'POST /teacher/register': 'TeacherController.registerTeacher',
 
   '/teacher/verify':'TeacherController.verifyTeacher',
+    'GET /repository/save': 'HomeController.saveCourse',
+    'POST /teacher/save-course': 'CourseController.saveCourse',
 
   // 'POST /teacher/myprofile': 'TeacherController.myprofile',
 

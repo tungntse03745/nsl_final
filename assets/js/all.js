@@ -1186,7 +1186,7 @@ var myApp;
 				$scope.disable = false;
 				console.log(res.data)
 	  			if(res.data.message == 'success'){
-	  				location.reload();
+	  				 window.location = '/mycourse';  
 	  			}else if(res.data.message == 'email_not_found'){
 	  				utils.alert({
                         title:'Thông báo',
@@ -1792,7 +1792,10 @@ $scope.confirmPasswordValidation = [{
                     if(res.data.message == 'success'){
                         utils.alert({
                             title:'Thông báo',
-                            msg: 'Đổi mật khẩu thành công !'
+                            msg: 'Đổi mật khẩu thành công !',
+                            callback:function(){
+                                    window.location = 'http://localhost:1337/';
+                                }
                         });
                     }
                 });
@@ -1812,13 +1815,7 @@ $scope.confirmPasswordValidation = [{
                 message:'Mật khẩu không khớp'
             }];
 
-
-//
-
-
         }
-
-
 
     );
 
@@ -2255,8 +2252,8 @@ $scope.confirmPasswordValidation = [{
 			$http.post("/teacher/login/local",$scope.user,{}).then(function(res){
 				$scope.disable = false;
 				console.log(res.data)
-	  			if(res.data.message == 'success'){
-	  				location.reload();
+	  			if(res.data.message == 'success'){	
+			        window.location = '/repository';   
 	  			}else if(res.data.message == 'email_not_found'){
 	  				utils.alert({
                         title:'Thông báo',

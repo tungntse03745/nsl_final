@@ -36,10 +36,10 @@
 								<li class="dropdown">
 									 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Đăng Nhập ,Đăng Ký Tài Khoản<b class="caret"></b></a>
 									 <ul class="dropdown-menu min-w-230">
-											<li><a href="#" class="btn btn-default w-200 pd-10 bold mg-auto mg-top-bottom-10" data-toggle="modal" data-target="#loginModal">Đăng Nhập</a></li>
-											<li><a class="btn btn-default w-200 pd-10 bold mg-auto mg-top-bottom-10" data-toggle="modal" data-target="#registerModal">Đăng Ký Tài Khoản Mới</a></li>
-											<!-- <li><a href="/login/facebook" class="btn btn-facebook w-200 pd-10 bold color-fff mg-auto mg-top-bottom-10">Dang nhap voi Facebook</a></li>
-											<li><a href="/login/google" class="btn btn-google w-200 pd-10 bold color-fff mg-auto mg-top-bottom-10">Dang nhap voi Google</a></li> -->
+											<!-- <li><a href="#" class="btn btn-default w-200 pd-10 bold mg-auto mg-top-bottom-10" data-toggle="modal" data-target="#loginModal">Đăng Nhập</a></li>
+											<li><a class="btn btn-default w-200 pd-10 bold mg-auto mg-top-bottom-10" data-toggle="modal" data-target="#registerModal">Đăng Ký Tài Khoản Mới</a></li> -->
+											<li><a href="/login/facebook" class="btn btn-facebook w-200 pd-10 bold color-fff mg-auto mg-top-bottom-10">Dang nhap voi Facebook</a></li>
+											<li><a href="/login/google" class="btn btn-google w-200 pd-10 bold color-fff mg-auto mg-top-bottom-10">Dang nhap voi Google</a></li>
 											<li><a href="/teacher/login" class="btn btn-default w-200 pd-10 bold mg-auto mg-top-bottom-10">Giáo viên đăng nhập</a></li>
 									 </ul>
 								</li>
@@ -74,7 +74,7 @@
 											<li><a href="/profile" class="btn btn-facebook w-200 pd-10 bold mg-auto mg-top-bottom-10 color-fff">Hồ sơ cá nhân</a></li>
 											<!-- EJS -->
 					 						<% if (user.role == 'student') { %>
-										 <li><a href="/changePassword" class="btn btn-facebook w-200 pd-10 bold mg-auto mg-top-bottom-10 color-fff">Thay đổi mật khẩu</a></li>
+										
 					 						<li><a href="/payment-history" class="btn btn-google w-200 pd-10 bold mg-auto mg-top-bottom-10 color-fff">Lịch sử giao dịch</a></li>
 					 						<li><a href="/mycourse" class="btn btn-success w-200 pd-10 bold mg-auto">Khóa học đã mua</a></li>
 
@@ -109,7 +109,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" ng-controller="registerStudentCtr">
         <div class="modal-content">
             <div class="modal-header">
@@ -133,7 +133,7 @@
 	                	</div>
 	            	</div>
             	</form>
-            </div>
+            </div> -->
            <!--  <div class="modal-footer">
             	<div class="row">
 	            	<div class="col-sm-6">
@@ -144,13 +144,13 @@
 					</div>
 				</div>
             </div> -->
-        </div>
+   <!--      </div>
     </div>
-</div>
+</div> -->
 
 
 <!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document" ng-controller="loginStudentCtr">
         <div class="modal-content">
             <div class="modal-header">
@@ -163,16 +163,16 @@
 		                <div class="mg-top-10">
 		                	<input type="email" class="form-control" placeholder="Email" name="email" ng-model="user.email" tooltip-enable="{{!loginform.email.$valid}}" tooltip-placement="top" uib-tooltip-template="'emailValidate.html'" ng-class="!loginform.email.$valid&&loginform.$submitted?'err':''" ng-required="true">
 		            		<!-- VALIDATE TEN KHOA HOC -->
-							<script type="text/ng-template" id="emailValidate.html">
+							<!-- <script type="text/ng-template" id="emailValidate.html">
 								<div ng-show="loginform.email.$error.required">Bạn phải nhập email</div>
 								<div ng-show="loginform.email.$error.email">Bạn phải nhập đúng dạng email</div>
-							</script>
+							</script> -->
 							<!-- END -->
-		                </div>
+		               <!--  </div>
 		                <div class="mg-top-10">
-		                	<input type="password" class="form-control" placeholder="Mật khẩu" name="password" ng-model="user.password" tooltip-enable="{{!loginform.password.$valid}}" tooltip-placement="top" uib-tooltip-template="'passwordValidate.html'" ng-class="!loginform.password.$valid&&loginform.$submitted?'err':''" ng-required="true" ng-minlength="6" ng-maxlength="12">
+		                	<input type="password" class="form-control" placeholder="Mật khẩu" name="password" ng-model="user.password" tooltip-enable="{{!loginform.password.$valid}}" tooltip-placement="top" uib-tooltip-template="'passwordValidate.html'" ng-class="!loginform.password.$valid&&loginform.$submitted?'err':''" ng-required="true" ng-minlength="6" ng-maxlength="12"> -->
 		            		<!-- VALIDATE TEN KHOA HOC -->
-							<script type="text/ng-template" id="passwordValidate.html">
+							<!-- <script type="text/ng-template" id="passwordValidate.html">
 								<div ng-show="loginform.password.$error.required">Bạn phải nhập password</div>
 								<div ng-show="loginform.password.$error.minlength">Mật khẩu phải lớn hơn 6 ký tự</div>
 								<div ng-show="loginform.password.$error.maxlength">Mật khẩu phải nhỏ hơn 12 ký tự</div>
@@ -196,4 +196,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>  -->
