@@ -62,6 +62,7 @@ module.exports = {
       defaultsTo: false,
     }
   },
+  //before lúc nào thay đổi mật khẩu thì nó sẽ mã hóa lại mật khẩu  
   beforeCreate: function(user, next) {
     if(!user.password){
       return next();

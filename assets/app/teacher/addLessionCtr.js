@@ -147,13 +147,14 @@
 			$scope.course.listCourseCategory[src] =  $scope.course.listCourseCategory[des];
 			$scope.course.listCourseCategory[des] = mid;
 		}
-		///////////////
+		/// delete Lession
 		$scope.deleteLesson = function(iChapter, iLesson){
 			for(var i = iLesson; i < $scope.course.listCourseCategory[iChapter].listLesson.length; i++){
 				$scope.course.listCourseCategory[iChapter].listLesson[i].order--;
 			}
 			$scope.course.listCourseCategory[iChapter].listLesson.splice (iLesson, 1);
 		}
+		/// đảo lesson
 		$scope.swapLesson = function(iChapter,src,des){
 			if(des < 0 || des >= $scope.course.listCourseCategory[iChapter].listLesson.length){
 				console.log('die')
