@@ -4,6 +4,7 @@
 (function () {
     myApp.controller('changePasswordTeacherCtr', function($scope, $http){
             $scope.changePass = {
+                 oldPassword:'',
                 password:'',
                 password_confirm:''
             }
@@ -23,6 +24,12 @@
                             callback:function(){
                                     window.location = 'http://localhost:1337/';
                                 }
+                        });
+                    }
+                    if(res.data.message == 'notSuccess'){
+                        utils.alert({
+                            title:'Thông báo',
+                            msg: 'Mật khẩu cũ sai!'
                         });
                     }
                 });

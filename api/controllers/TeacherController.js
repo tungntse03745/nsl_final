@@ -103,19 +103,28 @@ module.exports = {
 	changePasswordTeacher : function (req,res) {
 
 		var newPass = req.body.password;
+		var oldPassword = req.body.oldPassword;
 
-			console.log("++++"+newPass+"  "+parseInt(req.user.id));
-
-			var teacherId = req.user.id;
-
-				Teacher.update({id: teacherId},{
-					password: newPass,
-				}, function(err, teacher) {
-					if(err) console.log("ERROR Update ")
+        bcryptPassword.decode(oldPassword,req.user.password , function(Ok) {
+				// cb(isOk);
+                console.log("+++"+Ok +"  "+oldPassword)
+				if(Ok == false){
+					// console.log("Error Update ")
+					return res.json({message:'notSuccess'});
+				}
+				if(Ok == true){
+					var studentId = req.user.id;
+					Student.update({id: studentId},{
+						password: newPass,
+					}, function(err1, student) {
+						if(err1) console.log("Error Update ")
 						else return res.json({message:'success'});
-					// if (err) console.log("ERROR Update ")
-					// else console.log("SUCCESS UPDATE")
-				})
-			},
+
+					})
+				}
+
+			});
+
+	},
 };
 

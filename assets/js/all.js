@@ -1580,13 +1580,14 @@ $scope.confirmPasswordValidation = [{
 			$scope.course.listCourseCategory[src] =  $scope.course.listCourseCategory[des];
 			$scope.course.listCourseCategory[des] = mid;
 		}
-		///////////////
+		/// delete Lession
 		$scope.deleteLesson = function(iChapter, iLesson){
 			for(var i = iLesson; i < $scope.course.listCourseCategory[iChapter].listLesson.length; i++){
 				$scope.course.listCourseCategory[iChapter].listLesson[i].order--;
 			}
 			$scope.course.listCourseCategory[iChapter].listLesson.splice (iLesson, 1);
 		}
+		/// đảo lesson
 		$scope.swapLesson = function(iChapter,src,des){
 			if(des < 0 || des >= $scope.course.listCourseCategory[iChapter].listLesson.length){
 				console.log('die')
@@ -1777,6 +1778,7 @@ $scope.confirmPasswordValidation = [{
 (function () {
     myApp.controller('changePasswordTeacherCtr', function($scope, $http){
             $scope.changePass = {
+                 oldPassword:'',
                 password:'',
                 password_confirm:''
             }
@@ -1796,6 +1798,12 @@ $scope.confirmPasswordValidation = [{
                             callback:function(){
                                     window.location = 'http://localhost:1337/';
                                 }
+                        });
+                    }
+                    if(res.data.message == 'notSuccess'){
+                        utils.alert({
+                            title:'Thông báo',
+                            msg: 'Mật khẩu cũ sai!'
                         });
                     }
                 });

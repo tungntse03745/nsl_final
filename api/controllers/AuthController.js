@@ -16,7 +16,7 @@ module.exports = {
 				if (err) {
 					return res.badRequest(err);
 				}
-				return res.redirect('/');
+				return res.redirect('/mycourse');
 			});
 		})(req, res);
 	},
@@ -26,7 +26,7 @@ module.exports = {
 				if (err) {
 					return res.badRequest(err);
 				}
-				return res.redirect('/');
+				return res.redirect('/mycourse');
 			});
 		})(req, res);
 	},
